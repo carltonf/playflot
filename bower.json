@@ -1,0 +1,25 @@
+{
+  "name": "flot_stats",
+  "version": "0.1.0",
+  "authors": [
+    "Carl Xiong <xiongc05@gmail.com>"
+  ],
+  "description": "Use Flot to have some basic stats functionality.",
+  "main": "index.html",
+  "keywords": [
+    "flot",
+    "stats"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "flot": "~0.8.3",
+    "bootstrap": "~3.3.4"
+  }
+}

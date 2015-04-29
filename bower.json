@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "flot": "~0.8.3",
-    "bootstrap": "~3.3.4"
+    "bootstrap": "~3.3.4",
+    "codemirror": "~5.2.0"
   }
 }

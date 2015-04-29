@@ -1,11 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8" />
   <title>Stats with Flot</title>
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" />
+  <script src="bower_components/flot/jquery.flot.js"></script>
+  <script src="bower_components/flot/jquery.flot.categories.js"></script>
+  <style>
+   body {
+     font: 18px/1.5em "proxima-nova", Helvetica, Arial, sans-serif;
+   }
+
+   .flot-container-wrapper {
+     width: 100%;
+     position: relative;
+     padding-bottom: 52.94%;
+   }
+
+   .flot-container {
+     position: absolute;
+     top: 0; bottom: 0; left: 0; right: 0;
+     /* width: 850px; */
+     /* height: 450px; */
+     /* padding: 20px 15px 15px 15px;
+     margin: 15px auto 30px auto; */
+     border: 1px solid #ddd;
+     background: #fff;
+     background: linear-gradient(#f6f6f6 0, #fff 50px);
+     background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+     background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+     background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+     background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+     box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+     -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+     -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+     -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+     -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+   }
+
+   .flot-placeholder {
+     width: 100%;
+     height: 100%;
+     font-size: 14px;
+     line-height: 1.2em;
+   }
+  </style>
+  <script>
+   var persist_data = {};
+   $(function() {
+     var data = [ ["January", 10], ["February", 8], ["March", 4], ["April", 13], ["May", 17], ["June", 9] ];
+
+     var plot_call = function(){
+       $.plot("#placeholder", [ data ], {
+         series: {
+           bars: {
+             show: true,
+             barWidth: 0.6,
+             align: "center"
+           }
+         },
+         xaxis: {
+           mode: "categories",
+           tickLength: 0
+         }
+       });
+     };
+     persist_data.plot_call = plot_call;
+
+     plot_call();
+     // in case you need to redraw
+     /* $(window).resize(function(e){
+       // recalling "$.plot" seems to be the only reliable way to redraw.
+       plot_call();
+     }) */
+   });
+  </script>
+
 </head>
 <body>
-  <div>
-    
+
+  <div class="container-fluid">
+    <div class="jumbotron">
+      <h1>Stats Flot!</h1>
+      <p>Simple Web Application to have statistics visually shown!</p>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="data-col col-sm-4">
+        <p>With the categories plugin you can plot categories/textual data easily.</p>
+      </div>
+      <div class="col-sm-8">
+        <div class="flot-container-wrapper">
+          <div class="flot-container">
+            <div id="placeholder" class="flot-placeholder"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </body>

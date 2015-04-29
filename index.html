@@ -57,6 +57,7 @@
    .CodeMirror {
      border: 1px solid #ddd;
      height: 100%;
+     font-size: smaller;
    }
 
    .data-col {
@@ -73,26 +74,7 @@
   <script>
    var persist_data = {};
    $(function() {
-     var data = [ ["January", 10], ["February", 8], ["March", 4], ["April", 13], ["May", 17], ["June", 9] ];
 
-     var plot_call = function(){
-       $.plot("#placeholder", [ data ], {
-         series: {
-           bars: {
-             show: true,
-             barWidth: 0.6,
-             align: "center"
-           }
-         },
-         xaxis: {
-           mode: "categories",
-           tickLength: 0
-         }
-       });
-     };
-     persist_data.plot_call = plot_call;
-
-     plot_call();
      // in case you need to redraw
      /* $(window).resize(function(e){
        // recalling "$.plot" seems to be the only reliable way to redraw.
@@ -100,21 +82,60 @@
      }) */
 
      var jsFlotEditor = CodeMirror($("#js-editor")[0], {
-       value: "function myScript(){return 100;}\n",
+       value: "// Put your code below",
        mode:  "javascript"
      });
 
      /* only with an explicit number as height, the editArea of CodeMirror would
-     not be autoresized */
+     not be autoresized.
+
+      WARNING: With this part, we void the responsiveness of our code. Maybe
+     this is not that important.
+      */
      jsFlotEditor.setSize(null,
                           $(".flot-container-wrapper").css('height').replace("px", "")
-                            - $(".data-col > p").css('height').replace("px", ""));
+                            - $(".data-col > p").css('height').replace("px", "")
+                            - 5);
+
+     function safer_eval (code_str) {
+       try {
+         eval(code_str);
+       } catch (e) {
+         /* if (e instanceof SyntaxError) {
+         } */
+         // nothing
+       }
+     };
+
+     $.ajax({
+       /* Need mimeType to override file type, see
+        * http://stackoverflow.com/questions/1828228/why-does-jquery-insist-my-plain-text-is-not-well-formed
+        */
+       mimeType: 'text/plain; charset=x-user-defined',
+       url:         "prefilled.js",
+       type:        "GET",
+       dataType:    "text",
+       cache:       false,
+       success:     function( data, textStatus, jqxhr ) {
+         persist_data.prefilled_data = data;
+         jsFlotEditor.setValue(data);
+
+         safer_eval(data);
+         // console.log( data ); // Data returned
+         // console.log( textStatus ); // Success
+         // console.log( jqxhr.status ); // 200
+         // console.log( "Load was performed." );
+       }
+     });
+
+     jsFlotEditor.on('changes', function(e){
+       safer_eval(jsFlotEditor.getValue());
+     })
    });
   </script>
 
 </head>
 <body>
-
   <div class="container-fluid">
     <div class="jumbotron">
       <h1>Stats Flot!</h1>

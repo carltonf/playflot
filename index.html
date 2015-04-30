@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" />
   <script src="bower_components/flot/jquery.flot.js"></script>
   <script src="bower_components/flot/jquery.flot.categories.js"></script>
+  <script src="bower_components/flot/jquery.flot.resize.js"></script>
   <script src="bower_components/codemirror/lib/codemirror.js"></script>
   <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css" />
   <script src="bower_components/codemirror/mode/javascript/javascript.js"></script>
@@ -43,6 +44,10 @@
      -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
    }
 
+   .graph-description{
+     margin: 15px 0 0 0;
+   }
+
    .flot-placeholder {
      width: 100%;
      height: 100%;
@@ -55,13 +60,9 @@
    }
 
    .CodeMirror {
-     border: 1px solid #ddd;
+     border: 2px solid #aaa;
      height: 100%;
      font-size: smaller;
-   }
-
-   .data-col {
-     height: calc(100% - 20px);
    }
 
    .row-eq-height {
@@ -74,13 +75,6 @@
   <script>
    var persist_data = {};
    $(function() {
-
-     // in case you need to redraw
-     /* $(window).resize(function(e){
-       // recalling "$.plot" seems to be the only reliable way to redraw.
-       plot_call();
-     }) */
-
      var jsFlotEditor = CodeMirror($("#js-editor")[0], {
        value: "// Put your code below",
        mode:  "javascript"
@@ -93,9 +87,7 @@
      this is not that important.
       */
      jsFlotEditor.setSize(null,
-                          $(".flot-container-wrapper").css('height').replace("px", "")
-                            - $(".data-col > p").css('height').replace("px", "")
-                            - 5);
+                          $("#graph").css('height').replace("px", "") - 5);
 
      function safer_eval (code_str) {
        try {
@@ -145,17 +137,17 @@
 
   <div class="container-fluid">
     <div class="row row-eq-height">
-      <div class="col-sm-6">
-        <div class="data-col">
-          <p>With the categories plugin you can plot categories/textual data easily.</p>
-          <div id="js-editor"></div>
-        </div>
+      <div id="code" class="col-sm-6">
+        <div id="js-editor"></div>
       </div>
-      <div class="col-sm-6">
+      <div id="graph" class="col-sm-6">
         <div class="flot-container-wrapper">
           <div class="flot-container">
             <div id="placeholder" class="flot-placeholder"></div>
           </div>
+        </div>
+        <div class="graph-description">
+          <p>With the categories plugin you can plot categories/textual data easily.</p>
         </div>
       </div>
     </div>

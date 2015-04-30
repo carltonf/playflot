@@ -50,6 +50,10 @@ body {
   font-size: smaller;
 }
 
+/*
+  WARNING: With the following part, we void some responsiveness of bootstrap.
+  Currently the following part is not used. 
+*/
 .row-eq-height {
   display: -webkit-box;
   display: -webkit-flex;

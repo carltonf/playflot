@@ -1,3 +1,4 @@
+// debug purpose
 var persist_data = {};
 
 $(function() {
@@ -9,8 +10,8 @@ $(function() {
     /* only with an explicit number as height, the editArea of CodeMirror would
        not be autoresized.
 
-       WARNING: With this part, we void the responsiveness of our code. Maybe
-       this is not that important.
+       The height of jsFlotEditor has already listened and thus responsive, but
+       not the height.
     */
     jsFlotEditor.setSize(null,
                          $("#graph").css('height').replace("px", "") - 5);
@@ -39,10 +40,6 @@ $(function() {
             jsFlotEditor.setValue(data);
 
             safer_eval(data);
-            // console.log( data ); // Data returned
-            // console.log( textStatus ); // Success
-            // console.log( jqxhr.status ); // 200
-            // console.log( "Load was performed." );
         }
     });
 

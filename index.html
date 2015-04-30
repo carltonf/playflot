@@ -12,120 +12,9 @@
   <script src="bower_components/codemirror/lib/codemirror.js"></script>
   <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css" />
   <script src="bower_components/codemirror/mode/javascript/javascript.js"></script>
-  <style>
-   body {
-     font: 18px/1.5em "proxima-nova", Helvetica, Arial, sans-serif;
-   }
 
-   .flot-container-wrapper {
-     width: 100%;
-     position: relative;
-     padding-bottom: 52.94%;
-   }
-
-   .flot-container {
-     position: absolute;
-     top: 0; bottom: 0; left: 0; right: 0;
-     /* width: 850px; */
-     /* height: 450px; */
-     /* padding: 20px 15px 15px 15px;
-     margin: 15px auto 30px auto; */
-     border: 1px solid #ddd;
-     background: #fff;
-     background: linear-gradient(#f6f6f6 0, #fff 50px);
-     background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
-     background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
-     background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
-     background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
-     box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-     -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-     -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-     -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-     -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-   }
-
-   .graph-description{
-     margin: 15px 0 0 0;
-   }
-
-   .flot-placeholder {
-     width: 100%;
-     height: 100%;
-     font-size: 14px;
-     line-height: 1.2em;
-   }
-
-   #js-editor {
-     height: 100%;
-   }
-
-   .CodeMirror {
-     border: 2px solid #aaa;
-     height: 100%;
-     font-size: smaller;
-   }
-
-   .row-eq-height {
-     display: -webkit-box;
-     display: -webkit-flex;
-     display: -ms-flexbox;
-     display:         flex;
-   }
-  </style>
-  <script>
-   var persist_data = {};
-   $(function() {
-     var jsFlotEditor = CodeMirror($("#js-editor")[0], {
-       value: "// Put your code below",
-       mode:  "javascript"
-     });
-
-     /* only with an explicit number as height, the editArea of CodeMirror would
-     not be autoresized.
-
-      WARNING: With this part, we void the responsiveness of our code. Maybe
-     this is not that important.
-      */
-     jsFlotEditor.setSize(null,
-                          $("#graph").css('height').replace("px", "") - 5);
-
-     function safer_eval (code_str) {
-       try {
-         eval(code_str);
-       } catch (e) {
-         /* if (e instanceof SyntaxError) {
-         } */
-         // nothing
-       }
-     };
-
-     $.ajax({
-       /* Need mimeType to override file type, see
-        * http://stackoverflow.com/questions/1828228/why-does-jquery-insist-my-plain-text-is-not-well-formed
-        */
-       mimeType: 'text/plain; charset=x-user-defined',
-       url:         "prefilled.js",
-       type:        "GET",
-       dataType:    "text",
-       cache:       false,
-       success:     function( data, textStatus, jqxhr ) {
-         persist_data.prefilled_data = data;
-         jsFlotEditor.setValue(data);
-
-         safer_eval(data);
-         // console.log( data ); // Data returned
-         // console.log( textStatus ); // Success
-         // console.log( jqxhr.status ); // 200
-         // console.log( "Load was performed." );
-       }
-     });
-
-     jsFlotEditor.on('changes', function(e){
-       safer_eval(jsFlotEditor.getValue());
-     })
-   });
-  </script>
-
+  <link rel="stylesheet" href="styles/main.css" />
+  <script src="scripts/main.js"></script>
 </head>
 <body>
   <div class="container-fluid">
@@ -137,10 +26,10 @@
 
   <div class="container-fluid">
     <div class="row row-eq-height">
-      <div id="code" class="col-sm-6">
+      <div id="code" class="col-md-6">
         <div id="js-editor"></div>
       </div>
-      <div id="graph" class="col-sm-6">
+      <div id="graph" class="col-md-6">
         <div class="flot-container-wrapper">
           <div class="flot-container">
             <div id="placeholder" class="flot-placeholder"></div>
